@@ -1,14 +1,25 @@
 package kvmath.graphics;
 
-public class Mat2G {
+import java.io.Serializable;
 
-    private float m[][] = new float[2][2];
+/**
+ * A 2x2 float matrix for graphics applications
+ *
+ * @author Callum Mackenzie
+ */
+public class Mat2G implements Serializable {
+
+    public static final long serialVersionUID = 782327382L;
+
+    private final float m[][];
 
     public Mat2G() {
+        this.m = new float[2][2];
     }
 
     public Mat2G(float m[][]) {
-        this.m = m;
+        this();
+        this.copyFrom(m);
     }
 
     /**
@@ -23,7 +34,7 @@ public class Mat2G {
      *
      * @return the 2D float array matrix
      */
-    public float[][] getM() {
+    public float[][] getMatrixArray() {
         return m;
     }
 
@@ -31,13 +42,15 @@ public class Mat2G {
      *
      * @param m the 2D float array matrix to set
      */
-    public void setM(float[][] m) {
-        this.m = m;
+    public final void copyFrom(float[][] m) {
+        for (int i = 0; i < Math.min(m.length, 2); ++i) {
+            System.arraycopy(m[i], 0, this.m[i], 0, Math.min(m[i].length, 2));
+        }
     }
 
     /**
      *
-     * @return the determinant of the matrix
+     * @return the determinant of this matrix
      */
     public float determinant() {
         return (m[0][0] * m[1][1]) - (m[0][1] * m[1][0]);
@@ -45,12 +58,17 @@ public class Mat2G {
 
     /**
      *
-     * @return the inverse of the matrix
+     * @return the inverse of this matrix
      */
     public Mat2G inverse() {
         return Mat2G.inverse(this);
     }
 
+    /**
+     *
+     * @param mats matrices to multiply
+     * @return the product
+     */
     public Mat2G mul(Mat2G... mats) {
         Mat2G m1 = new Mat2G(this.m);
         for (Mat2G m2 : mats) {
@@ -117,6 +135,11 @@ public class Mat2G {
         return m;
     }
 
+    /**
+     *
+     * @param mat the matrix to invert
+     * @return the inverse
+     */
     public static Mat2G inverse(Mat2G mat) {
         float determinant = mat.determinant();
         Mat2G m = new Mat2G();
@@ -127,14 +150,22 @@ public class Mat2G {
         return m;
     }
 
+    /**
+     *
+     * @return the transposed matrix
+     */
     public Mat2G transposed() {
         return new Mat2G(new float[][]{
             {this.m[0][0], this.m[1][0]},
             {this.m[0][1], this.m[1][1]}});
     }
-    
+
+    /**
+     *
+     * @return this
+     */
     public Mat2G transpose() {
-        this.m = this.transposed().getM();
+        this.copyFrom(this.transposed().getMatrixArray());
         return this;
     }
 }

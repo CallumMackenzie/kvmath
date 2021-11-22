@@ -1,14 +1,38 @@
 package kvmath.graphics;
 
-public class Mat4G {
+import java.io.Serializable;
 
-    private float m[][] = new float[4][4];
+/**
+ * A 4x4 float matrix for graphics applications
+ *
+ * @author Callum Mackenzie
+ */
+public class Mat4G implements Serializable {
+
+    public static final long serialVersionUID = 45312432L;
+
+    private final float m[][];
 
     public Mat4G() {
+        this.m = new float[4][4];
     }
 
-    public Mat4G(float m[][]) {
-        this.m = m;
+    public Mat4G(float[][] m) {
+        this();
+        this.copyFrom(m);
+    }
+
+    /**
+     *
+     * Copies the given array's values into this one ignoring out of bounds
+     * values
+     *
+     * @param m The array to copy from
+     */
+    public final void copyFrom(float[][] m) {
+        for (int i = 0; i < Math.min(m.length, 4); ++i) {
+            System.arraycopy(m[i], 0, this.m[i], 0, Math.min(m[i].length, 4));
+        }
     }
 
     /**
@@ -29,8 +53,8 @@ public class Mat4G {
 
     /**
      *
-     * @param mats the Mat4s to multiply
-     * @return the Mat4G product
+     * @param mats the matrices to multiply
+     * @return the matrix product
      */
     public Mat4G mul(Mat4G... mats) {
         Mat4G m1 = new Mat4G(this.m);
@@ -51,16 +75,8 @@ public class Mat4G {
      *
      * @return the float array Mat4G
      */
-    public float[][] getM() {
+    public float[][] getMatrixArray() {
         return m;
-    }
-
-    /**
-     *
-     * @param m the float array Mat4G to set
-     */
-    public void setM(float[][] m) {
-        this.m = m;
     }
 
     public Mat4G transposed() {
@@ -74,20 +90,21 @@ public class Mat4G {
     }
 
     public Mat4G transpose() {
-        this.m = this.transposed().getM();
+        this.copyFrom(this.transposed().getMatrixArray());
         return this;
     }
 
     @Override
     public String toString() {
-        String ret = "";
+        StringBuilder ret = new StringBuilder();
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                ret += Float.toString(m[i][j]) + ", ";
+                ret.append(Float.toString(m[i][j]))
+                        .append(", ");
             }
-            ret += "\n";
+            ret.append("\n");
         }
-        return ret;
+        return ret.toString();
     }
 
     /**
@@ -112,14 +129,12 @@ public class Mat4G {
         return matrix;
     }
 
-    ;
-
-	/**
-	 * 
-	 * @param m a matrix
-	 * @return the inverse
-	 */
-	public static Mat4G inverse(Mat4G m) {
+    /**
+     *
+     * @param m a matrix
+     * @return the inverse
+     */
+    public static Mat4G inverse(Mat4G m) {
         Mat4G matrix = new Mat4G();
         matrix.m[0][0] = m.m[0][0];
         matrix.m[0][1] = m.m[1][0];
@@ -160,8 +175,8 @@ public class Mat4G {
      * @param target the target
      * @return a matrix associated with the direction of a point
      */
-    public static Mat4G pointedAt(Vec3G pos, Vec3G target) {
-        return pointedAt(pos, target, new Vec3G(0, 1.f, 0));
+    public static Mat4G lookAt(Vec3G pos, Vec3G target) {
+        return Mat4G.lookAt(pos, target, new Vec3G(0, 1.f, 0));
     }
 
     /**
@@ -171,11 +186,11 @@ public class Mat4G {
      * @param up the direction to treat as up
      * @return a matrix associated with the direction of a point
      */
-    public static Mat4G pointedAt(Vec3G pos, Vec3G target, Vec3G up) {
+    public static Mat4G lookAt(Vec3G pos, Vec3G target, Vec3G up) {
         Vec3G newForward = target.sub(pos);
         newForward.normalize();
 
-        Vec3G a = newForward.mulFloat(Vec3G.dot(up, newForward));
+        Vec3G a = newForward.mul(Vec3G.dot(up, newForward));
         Vec3G newUp = up.sub(a);
         newUp.normalize();
 
@@ -291,7 +306,7 @@ public class Mat4G {
     /**
      * Constructs a translation matrix
      *
-     * @param v a Vec3G repersenting a transformation
+     * @param v a Vec3G representing a transformation
      * @return a 3D translation matrix
      */
     public static Mat4G translation(Vec3G v) {
@@ -300,7 +315,7 @@ public class Mat4G {
 
     /**
      *
-     * @param xRad x rotation in radians
+     * @param xRad Euler x rotation in radians
      * @return a 3D rotation matrix with an x component only
      */
     public static Mat4G rotationX(float xRad) {
@@ -316,7 +331,7 @@ public class Mat4G {
 
     /**
      *
-     * @param yRad y rotation in radians
+     * @param yRad Euler y rotation in radians
      * @return a 3D rotation matrix with an y component only
      */
     public static Mat4G rotationY(float yRad) {
@@ -332,7 +347,7 @@ public class Mat4G {
 
     /**
      *
-     * @param zRad z rotation in radians
+     * @param zRad Euler z rotation in radians
      * @return a 3D rotation matrix with an z component only
      */
     public static Mat4G rotationZ(float zRad) {
@@ -348,19 +363,29 @@ public class Mat4G {
 
     /**
      *
-     * @param xRad x rotation in radians
-     * @param yRad y rotation in radians
-     * @param zRad z rotation in radians
-     * @return a full 3D rotation matrix
+     * @param xRad Euler x rotation in radians
+     * @param yRad Euler y rotation in radians
+     * @param zRad Euler z rotation in radians
+     * @return a rotation matrix
      */
     public static Mat4G rotation(float xRad, float yRad, float zRad) {
         return Mat4G.rotationX(xRad).mul(Mat4G.rotationY(yRad), Mat4G.rotationZ(zRad));
     }
-    
+
+    /**
+     *
+     * @param rotation Euler angle rotation
+     * @return a rotation matrix
+     */
     public static Mat4G rotation(Vec3G rotation) {
         return Mat4G.rotation(rotation.getX(), rotation.getY(), rotation.getZ());
     }
 
+    /**
+     *
+     * @param q a rotation quaternion
+     * @return a rotation matrix
+     */
     public static Mat4G rotation(QuaternionG q) {
         q.normalize();
         return new Mat4G(new float[][]{
@@ -383,24 +408,45 @@ public class Mat4G {
         int k = 0;
         for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
-                f[k] = mat.getM()[i][j];
+                f[k] = mat.getMatrixArray()[i][j];
                 k++;
             }
         }
         return f;
     }
 
+    /**
+     *
+     * @param xRad Euler x rotation
+     * @param yRad Euler y rotation
+     * @param zRad Euler z rotation
+     * @param pt the point to rotate around
+     * @return a rotation matrix
+     */
     public static Mat4G rotationOnPoint(float xRad, float yRad, float zRad, Vec3G pt) {
         return Mat4G.translation(pt).mul(Mat4G.rotation(xRad, yRad, zRad),
                 Mat4G.translation(-pt.getX(), -pt.getY(), -pt.getZ()));
     }
 
+    /**
+     *
+     * @param rotation Euler angle rotation
+     * @param point the point to rotate around
+     * @return a rotation matrix
+     */
     public static Mat4G rotationOnPoint(Vec3G rotation, Vec3G point) {
         return Mat4G.rotationOnPoint(rotation.getX(), rotation.getY(), rotation.getZ(), point);
     }
 
+    /**
+     *
+     * @param rot quaternion rotation
+     * @param pt the point to rotate around
+     * @return a rotation matrix
+     */
     public static Mat4G rotationOnPoint(QuaternionG rot, Vec3G pt) {
         return Mat4G.translation(pt).mul(Mat4G.rotation(rot),
                 Mat4G.translation(-pt.x(), -pt.y(), -pt.z()));
     }
+
 }

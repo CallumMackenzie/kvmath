@@ -1,6 +1,15 @@
 package kvmath.graphics;
 
-public class Vec4G implements Comparable<Vec4G> {
+import java.io.Serializable;
+
+/**
+ * A 4 component vector for graphics applications
+ *
+ * @author Callum Mackenzie
+ */
+public class Vec4G implements Comparable<Vec4G>, Serializable {
+
+    public static final long serialVersionUID = 87583783L;
 
     protected float x, y, z, w;
 
@@ -96,7 +105,7 @@ public class Vec4G implements Comparable<Vec4G> {
     }
 
     public static Vec4G mulMat4(Vec4G v, Mat4G mat) {
-        float[][] m = mat.getM();
+        float[][] m = mat.getMatrixArray();
         return new Vec4G(
                 v.x * m[0][0] + v.y * m[1][0] + v.z * m[2][0] + v.w * m[3][0],
                 v.x * m[0][1] + v.y * m[1][1] + v.z * m[2][1] + v.w * m[3][1],
@@ -177,7 +186,7 @@ public class Vec4G implements Comparable<Vec4G> {
      * @param ns floats to multiply
      * @return a new Vec4G with the product
      */
-    public Vec4G mulFloat(float... ns) {
+    public Vec4G mul(float... ns) {
         Vec4G vec = new Vec4G(this);
         for (float n : ns) {
             vec.x *= n;
@@ -188,16 +197,12 @@ public class Vec4G implements Comparable<Vec4G> {
         return vec;
     }
 
-    public Vec4G mul(float... ns) {
-        return this.mulFloat(ns);
-    }
-
     /**
      *
      * @param ns floats to add
      * @return a new Vec4G with the sum
      */
-    public Vec4G addFloat(float... ns) {
+    public Vec4G add(float... ns) {
         Vec4G vec = new Vec4G(this);
         for (float n : ns) {
             vec.x += n;
@@ -208,16 +213,12 @@ public class Vec4G implements Comparable<Vec4G> {
         return vec;
     }
 
-    public Vec4G add(float... ns) {
-        return this.addFloat(ns);
-    }
-
     /**
      *
      * @param ns floats to multiply
      * @return a new Vec4G with the difference
      */
-    public Vec4G subFloat(float... ns) {
+    public Vec4G sub(float... ns) {
         Vec4G vec = new Vec4G(this);
         for (float n : ns) {
             vec.x -= n;
@@ -228,16 +229,12 @@ public class Vec4G implements Comparable<Vec4G> {
         return vec;
     }
 
-    public Vec4G sub(float... ns) {
-        return this.subFloat(ns);
-    }
-
     /**
      *
      * @param ns floats to multiply
      * @return a new Vec4G with the product
      */
-    public Vec4G divFloat(float... ns) {
+    public Vec4G div(float... ns) {
         Vec4G vec = new Vec4G(this);
         for (float n : ns) {
             vec.x /= n;
@@ -246,10 +243,6 @@ public class Vec4G implements Comparable<Vec4G> {
             vec.w /= n;
         }
         return vec;
-    }
-
-    public Vec4G div(float... ns) {
-        return this.divFloat(ns);
     }
 
     public Vec4G addEquals(Vec4G... vectors) {
@@ -514,30 +507,24 @@ public class Vec4G implements Comparable<Vec4G> {
 
     public Vec4G restrictedColor() {
         Vec4G r = new Vec4G(this);
-        if (r.x > 1) {
-            r.x = 1;
-        }
-        if (r.x < 0) {
-            r.x = 0;
-        }
-        if (r.y > 1) {
-            r.y = 1;
-        }
-        if (r.y < 0) {
-            r.y = 0;
-        }
-        if (r.z > 1) {
-            r.z = 1;
-        }
-        if (r.z < 0) {
-            r.z = 0;
-        }
-        if (r.w > 1) {
-            r.w = 1;
-        }
-        if (r.w < 0) {
-            r.w = 0;
-        }
+        r.x = restrict(1, 0, r.x);
+        r.y = restrict(1, 0, r.y);
+        r.z = restrict(1, 0, r.z);
+        r.w = restrict(1, 0, r.w);
         return r;
+    }
+
+    private static float restrict(float upper, float lower, float res) {
+        if (res > upper) {
+            res = upper;
+        }
+        if (res < lower) {
+            res = lower;
+        }
+        return res;
+    }
+
+    public final float[] toFloatArray() {
+        return new float[]{this.x, this.y, this.z, this.w};
     }
 }

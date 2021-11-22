@@ -128,7 +128,7 @@ public class QuaternionG extends Vec4G {
                     (double) (sqw - sqx - sqy + sqz)));
         } else {
             euler.setZ((float) Math.atan2(
-                    (double) (2.f * this.y * this.z - 2.f * this.x * this.w), 
+                    (double) (2.f * this.y * this.z - 2.f * this.x * this.w),
                     (double) (2.f * this.x * this.z + 2.f * this.y * this.w)));
             euler.setX(0);
             if (euler.y() < 0) {

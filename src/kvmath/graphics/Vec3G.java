@@ -1,6 +1,15 @@
 package kvmath.graphics;
 
-public class Vec3G implements Comparable<Vec3G> {
+import java.io.Serializable;
+
+/**
+ * A 3 component vector for graphics applications
+ *
+ * @author Callum Mackenzie
+ */
+public class Vec3G implements Comparable<Vec3G>, Serializable {
+
+    public static final long serialVersionUID = 873891209L;
 
     protected float x, y, z;
 
@@ -136,7 +145,7 @@ public class Vec3G implements Comparable<Vec3G> {
         return vec;
     }
 
-    public final Vec3G mulFloat(float... ns) {
+    public final Vec3G mul(float... ns) {
         Vec3G vec = new Vec3G(this);
         for (float n : ns) {
             vec.x *= n;
@@ -146,11 +155,7 @@ public class Vec3G implements Comparable<Vec3G> {
         return vec;
     }
 
-    public final Vec3G mul(float... ns) {
-        return this.mulFloat(ns);
-    }
-
-    public final Vec3G addFloat(float... ns) {
+    public final Vec3G add(float... ns) {
         Vec3G vec = new Vec3G(this);
         for (float n : ns) {
             vec.x += n;
@@ -160,11 +165,7 @@ public class Vec3G implements Comparable<Vec3G> {
         return vec;
     }
 
-    public final Vec3G add(float... ns) {
-        return this.addFloat(ns);
-    }
-
-    public final Vec3G subFloat(float... ns) {
+    public final Vec3G sub(float... ns) {
         Vec3G vec = new Vec3G(this);
         for (float n : ns) {
             vec.x -= n;
@@ -174,11 +175,7 @@ public class Vec3G implements Comparable<Vec3G> {
         return vec;
     }
 
-    public final Vec3G sub(float... ns) {
-        return this.subFloat(ns);
-    }
-
-    public final Vec3G divFloat(float... ns) {
+    public final Vec3G div(float... ns) {
         Vec3G vec = new Vec3G(this);
         for (float n : ns) {
             vec.x /= n;
@@ -186,10 +183,6 @@ public class Vec3G implements Comparable<Vec3G> {
             vec.z /= n;
         }
         return vec;
-    }
-
-    public final Vec3G div(float... ns) {
-        return this.divFloat(ns);
     }
 
     public final Vec3G addEquals(Vec3G... vectors) {
@@ -532,6 +525,10 @@ public class Vec3G implements Comparable<Vec3G> {
         Vec3G perp = in.add(normal.mul(cosTheta)).mulEquals(refractionRatio);
         Vec3G para = normal.mul((float) -Math.sqrt(Math.abs(1.0 - perp.lenSquared())));
         return perp.addEquals(para);
+    }
+
+    public final float[] toFloatArray() {
+        return new float[]{this.x, this.y, this.z};
     }
 
 }

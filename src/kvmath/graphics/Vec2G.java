@@ -1,38 +1,80 @@
 package kvmath.graphics;
 
-public class Vec2G implements Comparable<Vec2G> {
+import java.io.Serializable;
+
+/**
+ * A 2 component vector for graphics applications
+ *
+ * @author Callum Mackenzie
+ */
+public class Vec2G implements Comparable<Vec2G>, Serializable {
+
+    public static final long serialVersionUID = 4384841L;
 
     protected float x, y;
 
-    float getX() {
+    /**
+     *
+     * @return the x value
+     */
+    public float getX() {
         return this.x;
     }
 
-    void setX(float x) {
+    /**
+     *
+     * @param x the value to set x to
+     */
+    public void setX(float x) {
         this.x = x;
     }
 
-    void setX(double x) {
+    /**
+     *
+     * @param x the value to set x to
+     */
+    public void setX(double x) {
         this.x = (float) x;
     }
 
-    float getY() {
+    /**
+     *
+     * @return the y value.
+     */
+    public float getY() {
         return this.y;
     }
 
-    void setY(float y) {
+    /**
+     *
+     * @param y the value to set y to
+     */
+    public void setY(float y) {
         this.y = y;
     }
 
-    void setY(double y) {
+    /**
+     *
+     * @param y the value to set y to
+     */
+    public void setY(double y) {
         this.y = (float) y;
     }
 
+    /**
+     *
+     * @param x the x value
+     * @param y the y value
+     */
     public Vec2G(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
+    /**
+     *
+     * @param x the x value
+     */
     public Vec2G(float x) {
         this(x, 0.f);
     }
@@ -41,16 +83,24 @@ public class Vec2G implements Comparable<Vec2G> {
         this(0);
     }
 
+    /**
+     *
+     * @param v the vector to copy
+     */
     public Vec2G(Vec2G v) {
         this(v.x, v.y);
     }
 
+    /**
+     *
+     * @param x the x value
+     * @param y the y value
+     */
     public Vec2G(double x, double y) {
         this((float) x, (float) y);
     }
 
     /**
-     * Creates a new Vec2G casting input doubles to floats
      *
      * @param x the x component
      */
@@ -58,10 +108,19 @@ public class Vec2G implements Comparable<Vec2G> {
         this((float) x);
     }
 
+    /**
+     *
+     * @return the vector length
+     */
     public float len() {
         return (float) Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
+    /**
+     *
+     * @param vs the vectors to subtract
+     * @return the difference
+     */
     public Vec2G sub(Vec2G... vs) {
         Vec2G vec = new Vec2G(this);
         for (Vec2G v : vs) {
@@ -142,7 +201,12 @@ public class Vec2G implements Comparable<Vec2G> {
         return new Vec2G(this.x / l, this.y / l);
     }
 
-    public Vec2G mulFloat(float... ns) {
+    /**
+     *
+     * @param ns the floats to scale by
+     * @return a new scaled vector
+     */
+    public Vec2G mul(float... ns) {
         Vec2G vec = new Vec2G(this);
         for (float n : ns) {
             vec.x *= n;
@@ -151,25 +215,26 @@ public class Vec2G implements Comparable<Vec2G> {
         return vec;
     }
 
-    public Vec2G mul(float... f) {
-        return this.mulFloat(f);
-    }
-
-    public Vec2G divFloat(float... ns) {
+    /**
+     *
+     * @param ns the floats to scale by
+     * @return a new scaled vector
+     */
+    public Vec2G div(float... ns) {
         Vec2G vec = new Vec2G(this);
         for (float n : ns) {
             vec.x /= n;
             vec.y /= n;
-
         }
         return vec;
     }
 
-    public Vec2G div(float... f) {
-        return this.divFloat(f);
-    }
-
-    public Vec2G addFloat(float... ns) {
+    /**
+     *
+     * @param ns the numbers to add
+     * @return a new sum vector
+     */
+    public Vec2G add(float... ns) {
         Vec2G vec = new Vec2G(this);
         for (float n : ns) {
             vec.x += n;
@@ -178,11 +243,12 @@ public class Vec2G implements Comparable<Vec2G> {
         return vec;
     }
 
-    public Vec2G add(float... f) {
-        return this.addFloat(f);
-    }
-
-    public Vec2G subFloat(float... ns) {
+    /**
+     *
+     * @param ns the numbers to subtract
+     * @return a new difference vector
+     */
+    public Vec2G sub(float... ns) {
         Vec2G vec = new Vec2G(this);
         for (float n : ns) {
             vec.x -= n;
@@ -191,16 +257,12 @@ public class Vec2G implements Comparable<Vec2G> {
         return vec;
     }
 
-    public Vec2G sub(float... f) {
-        return this.subFloat(f);
-    }
-
     /**
      *
      * @param mat the matrix to multiply by
      * @return the product
      */
-    public Vec2G mulMat2(Mat2G mat) {
+    public Vec2G mul(Mat2G mat) {
         return Vec2G.mulMat2(this, mat);
     }
 
@@ -245,6 +307,11 @@ public class Vec2G implements Comparable<Vec2G> {
         return this.set(this.div(ns));
     }
 
+    /**
+     *
+     * @param newVector the vector to be set from
+     * @return this
+     */
     public Vec2G set(Vec2G newVector) {
         this.x = newVector.x;
         this.y = newVector.y;
@@ -277,8 +344,8 @@ public class Vec2G implements Comparable<Vec2G> {
      */
     public static Vec2G mulMat2(Vec2G vec, Mat2G mat) {
         Vec2G v = new Vec2G(vec);
-        v.x = (v.x * mat.getM()[0][0]) + (v.x * mat.getM()[0][1]);
-        v.y = (v.y * mat.getM()[1][0]) + (v.y * mat.getM()[1][1]);
+        v.x = (v.x * mat.getMatrixArray()[0][0]) + (v.x * mat.getMatrixArray()[0][1]);
+        v.y = (v.y * mat.getMatrixArray()[1][0]) + (v.y * mat.getMatrixArray()[1][1]);
         return v;
     }
 
@@ -350,6 +417,12 @@ public class Vec2G implements Comparable<Vec2G> {
         this.y = v;
     }
 
+    /**
+     *
+     * @param v1 the first vector
+     * @param v2 the second vector
+     * @return the dot product
+     */
     public static float dot(Vec2G v1, Vec2G v2) {
         return v1.x * v2.x + v1.y * v2.y;
     }
@@ -366,4 +439,9 @@ public class Vec2G implements Comparable<Vec2G> {
     public int compareTo(Vec2G other) {
         return (int) (this.len() - other.len());
     }
+
+    public final float[] toFloatArray() {
+        return new float[]{this.x, this.y};
+    }
+
 }
