@@ -7,17 +7,17 @@ import java.io.Serializable;
  *
  * @author Callum Mackenzie
  */
-public class Mat4G implements Serializable {
+public class Mat4 implements Serializable {
 
     public static final long serialVersionUID = 45312432L;
 
     private final float m[][];
 
-    public Mat4G() {
+    public Mat4() {
         this.m = new float[4][4];
     }
 
-    public Mat4G(float[][] m) {
+    public Mat4(float[][] m) {
         this();
         this.copyFrom(m);
     }
@@ -37,18 +37,18 @@ public class Mat4G implements Serializable {
 
     /**
      *
-     * @return the flattened Mat4G
+     * @return the flattened Mat4
      */
     public float[] flatten() {
-        return Mat4G.flatten(this);
+        return Mat4.flatten(this);
     }
 
     /**
      *
-     * @return the inverse of the Mat4G
+     * @return the inverse of the Mat4
      */
-    public Mat4G inverse() {
-        return Mat4G.inverse(this);
+    public Mat4 inverse() {
+        return Mat4.inverse(this);
     }
 
     /**
@@ -56,10 +56,10 @@ public class Mat4G implements Serializable {
      * @param mats the matrices to multiply
      * @return the matrix product
      */
-    public Mat4G mul(Mat4G... mats) {
-        Mat4G m1 = new Mat4G(this.m);
-        for (Mat4G m2 : mats) {
-            Mat4G matrix = new Mat4G();
+    public Mat4 mul(Mat4... mats) {
+        Mat4 m1 = new Mat4(this.m);
+        for (Mat4 m2 : mats) {
+            Mat4 matrix = new Mat4();
             for (int c = 0; c < 4; c++) {
                 for (int r = 0; r < 4; r++) {
                     matrix.m[r][c] = m1.m[r][0] * m2.m[0][c] + m1.m[r][1] * m2.m[1][c] + m1.m[r][2] * m2.m[2][c]
@@ -73,14 +73,14 @@ public class Mat4G implements Serializable {
 
     /**
      *
-     * @return the float array Mat4G
+     * @return the float array Mat4
      */
     public float[][] getMatrixArray() {
         return m;
     }
 
-    public Mat4G transposed() {
-        Mat4G ret = new Mat4G();
+    public Mat4 transposed() {
+        Mat4 ret = new Mat4();
         for (int i = 0; i < 4; ++i) {
             for (int j = 0; j < 4; ++j) {
                 ret.m[i][j] = m[j][i];
@@ -89,7 +89,7 @@ public class Mat4G implements Serializable {
         return ret;
     }
 
-    public Mat4G transpose() {
+    public Mat4 transpose() {
         this.copyFrom(this.transposed().getMatrixArray());
         return this;
     }
@@ -117,9 +117,9 @@ public class Mat4G implements Serializable {
      * @param far the far clip plane
      * @return a perspective projection matrix
      */
-    public static Mat4G perspective(float fovDeg, float aspectRatio, float near, float far) {
+    public static Mat4 perspective(float fovDeg, float aspectRatio, float near, float far) {
         float fovRad = 1.f / (float) Math.tan((fovDeg * 0.5f) * (3.14159265f / 180.f));
-        Mat4G matrix = new Mat4G();
+        Mat4 matrix = new Mat4();
         matrix.m[0][0] = aspectRatio * fovRad;
         matrix.m[1][1] = fovRad;
         matrix.m[2][2] = far / (far - near);
@@ -134,8 +134,8 @@ public class Mat4G implements Serializable {
      * @param m a matrix
      * @return the inverse
      */
-    public static Mat4G inverse(Mat4G m) {
-        Mat4G matrix = new Mat4G();
+    public static Mat4 inverse(Mat4 m) {
+        Mat4 matrix = new Mat4();
         matrix.m[0][0] = m.m[0][0];
         matrix.m[0][1] = m.m[1][0];
         matrix.m[0][2] = m.m[2][0];
@@ -160,8 +160,8 @@ public class Mat4G implements Serializable {
      *
      * @return the identity matrix
      */
-    public static Mat4G identity() {
-        Mat4G matrix = new Mat4G();
+    public static Mat4 identity() {
+        Mat4 matrix = new Mat4();
         matrix.m[0][0] = 1.f;
         matrix.m[1][1] = 1.f;
         matrix.m[2][2] = 1.f;
@@ -175,8 +175,8 @@ public class Mat4G implements Serializable {
      * @param target the target
      * @return a matrix associated with the direction of a point
      */
-    public static Mat4G lookAt(Vec3G pos, Vec3G target) {
-        return Mat4G.lookAt(pos, target, new Vec3G(0, 1.f, 0));
+    public static Mat4 lookAt(Vec3 pos, Vec3 target) {
+        return Mat4.lookAt(pos, target, new Vec3(0, 1.f, 0));
     }
 
     /**
@@ -186,16 +186,16 @@ public class Mat4G implements Serializable {
      * @param up the direction to treat as up
      * @return a matrix associated with the direction of a point
      */
-    public static Mat4G lookAt(Vec3G pos, Vec3G target, Vec3G up) {
-        Vec3G newForward = target.sub(pos);
+    public static Mat4 lookAt(Vec3 pos, Vec3 target, Vec3 up) {
+        Vec3 newForward = target.sub(pos);
         newForward.normalize();
 
-        Vec3G a = newForward.mul(Vec3G.dot(up, newForward));
-        Vec3G newUp = up.sub(a);
+        Vec3 a = newForward.mul(Vec3.dot(up, newForward));
+        Vec3 newUp = up.sub(a);
         newUp.normalize();
 
-        Vec3G newRight = Vec3G.cross(newUp, newForward);
-        Mat4G matrix = new Mat4G();
+        Vec3 newRight = Vec3.cross(newUp, newForward);
+        Mat4 matrix = new Mat4();
         matrix.m[0][0] = newRight.getX();
         matrix.m[0][1] = newRight.getY();
         matrix.m[0][2] = newRight.getZ();
@@ -223,8 +223,8 @@ public class Mat4G implements Serializable {
      * @param z z scale
      * @return a 3D scale matrix
      */
-    public static Mat4G scale(float x, float y, float z) {
-        Mat4G matrix = Mat4G.identity();
+    public static Mat4 scale(float x, float y, float z) {
+        Mat4 matrix = Mat4.identity();
         matrix.m[0][0] = x;
         matrix.m[1][1] = y;
         matrix.m[2][2] = z;
@@ -238,7 +238,7 @@ public class Mat4G implements Serializable {
      * @param y y scale
      * @return a 3D scale matrix
      */
-    public static Mat4G scale(float x, float y) {
+    public static Mat4 scale(float x, float y) {
         return scale(x, y, 1.f);
     }
 
@@ -248,17 +248,17 @@ public class Mat4G implements Serializable {
      * @param x x scale
      * @return a 3D scale matrix
      */
-    public static Mat4G scale(float x) {
+    public static Mat4 scale(float x) {
         return scale(x, 1.f);
     }
 
     /**
      * Constructs a scale matrix
      *
-     * @param v a Vec3G representing a scale
+     * @param v a Vec3 representing a scale
      * @return a 3D scale matrix
      */
-    public static Mat4G scale(Vec3G v) {
+    public static Mat4 scale(Vec3 v) {
         return scale(v.getX(), v.getY(), v.getZ());
     }
 
@@ -270,8 +270,8 @@ public class Mat4G implements Serializable {
      * @param z z translation
      * @return a 3D translation matrix
      */
-    public static Mat4G translation(float x, float y, float z) {
-        Mat4G matrix = new Mat4G();
+    public static Mat4 translation(float x, float y, float z) {
+        Mat4 matrix = new Mat4();
         matrix.m[0][0] = 1.f;
         matrix.m[1][1] = 1.f;
         matrix.m[2][2] = 1.f;
@@ -289,7 +289,7 @@ public class Mat4G implements Serializable {
      * @param y y translation
      * @return a 3D translation matrix
      */
-    public static Mat4G translation(float x, float y) {
+    public static Mat4 translation(float x, float y) {
         return translation(x, y, 0.f);
     }
 
@@ -299,17 +299,17 @@ public class Mat4G implements Serializable {
      * @param x x translation
      * @return a 3D translation matrix
      */
-    public static Mat4G translation(float x) {
+    public static Mat4 translation(float x) {
         return translation(x, 0.f);
     }
 
     /**
      * Constructs a translation matrix
      *
-     * @param v a Vec3G representing a transformation
+     * @param v a Vec3 representing a transformation
      * @return a 3D translation matrix
      */
-    public static Mat4G translation(Vec3G v) {
+    public static Mat4 translation(Vec3 v) {
         return translation(v.getX(), v.getY(), v.getZ());
     }
 
@@ -318,8 +318,8 @@ public class Mat4G implements Serializable {
      * @param xRad Euler x rotation in radians
      * @return a 3D rotation matrix with an x component only
      */
-    public static Mat4G rotationX(float xRad) {
-        Mat4G matrix = new Mat4G();
+    public static Mat4 rotationX(float xRad) {
+        Mat4 matrix = new Mat4();
         matrix.m[0][0] = 1.f;
         matrix.m[1][1] = (float) Math.cos(xRad);
         matrix.m[1][2] = (float) Math.sin(xRad);
@@ -334,8 +334,8 @@ public class Mat4G implements Serializable {
      * @param yRad Euler y rotation in radians
      * @return a 3D rotation matrix with an y component only
      */
-    public static Mat4G rotationY(float yRad) {
-        Mat4G matrix = new Mat4G();
+    public static Mat4 rotationY(float yRad) {
+        Mat4 matrix = new Mat4();
         matrix.m[0][0] = (float) Math.cos(yRad);
         matrix.m[0][2] = (float) Math.sin(yRad);
         matrix.m[2][0] = -(float) Math.sin(yRad);
@@ -350,8 +350,8 @@ public class Mat4G implements Serializable {
      * @param zRad Euler z rotation in radians
      * @return a 3D rotation matrix with an z component only
      */
-    public static Mat4G rotationZ(float zRad) {
-        Mat4G matrix = new Mat4G();
+    public static Mat4 rotationZ(float zRad) {
+        Mat4 matrix = new Mat4();
         matrix.m[0][0] = (float) Math.cos(zRad);
         matrix.m[0][1] = (float) Math.sin(zRad);
         matrix.m[1][0] = -(float) Math.sin(zRad);
@@ -368,8 +368,8 @@ public class Mat4G implements Serializable {
      * @param zRad Euler z rotation in radians
      * @return a rotation matrix
      */
-    public static Mat4G rotation(float xRad, float yRad, float zRad) {
-        return Mat4G.rotationX(xRad).mul(Mat4G.rotationY(yRad), Mat4G.rotationZ(zRad));
+    public static Mat4 rotation(float xRad, float yRad, float zRad) {
+        return Mat4.rotationX(xRad).mul(Mat4.rotationY(yRad), Mat4.rotationZ(zRad));
     }
 
     /**
@@ -377,8 +377,8 @@ public class Mat4G implements Serializable {
      * @param rotation Euler angle rotation
      * @return a rotation matrix
      */
-    public static Mat4G rotation(Vec3G rotation) {
-        return Mat4G.rotation(rotation.getX(), rotation.getY(), rotation.getZ());
+    public static Mat4 rotation(Vec3 rotation) {
+        return Mat4.rotation(rotation.getX(), rotation.getY(), rotation.getZ());
     }
 
     /**
@@ -386,9 +386,9 @@ public class Mat4G implements Serializable {
      * @param q a rotation quaternion
      * @return a rotation matrix
      */
-    public static Mat4G rotation(QuaternionG q) {
+    public static Mat4 rotation(Quaternion q) {
         q.normalize();
-        return new Mat4G(new float[][]{
+        return new Mat4(new float[][]{
             {1.f - 2.f * q.y() * q.y() - 2.f * q.z() * q.z(), 2.f * q.x() * q.y() - 2.f * q.z() * q.w(),
                 2.f * q.x() * q.z() + 2.f * q.y() * q.w(), 0.f},
             {2.f * q.x() * q.y() + 2.f * q.z() * q.w(), 1.f - 2.f * q.x() * q.x() - 2.f * q.z() * q.z(),
@@ -403,7 +403,7 @@ public class Mat4G implements Serializable {
      * @param mat the matrix to flatten
      * @return the flattened matrix
      */
-    public static float[] flatten(Mat4G mat) {
+    public static float[] flatten(Mat4 mat) {
         float f[] = new float[16];
         int k = 0;
         for (int i = 0; i < 4; i++) {
@@ -423,9 +423,9 @@ public class Mat4G implements Serializable {
      * @param pt the point to rotate around
      * @return a rotation matrix
      */
-    public static Mat4G rotationOnPoint(float xRad, float yRad, float zRad, Vec3G pt) {
-        return Mat4G.translation(pt).mul(Mat4G.rotation(xRad, yRad, zRad),
-                Mat4G.translation(-pt.getX(), -pt.getY(), -pt.getZ()));
+    public static Mat4 rotationOnPoint(float xRad, float yRad, float zRad, Vec3 pt) {
+        return Mat4.translation(pt).mul(Mat4.rotation(xRad, yRad, zRad),
+                Mat4.translation(-pt.getX(), -pt.getY(), -pt.getZ()));
     }
 
     /**
@@ -434,8 +434,8 @@ public class Mat4G implements Serializable {
      * @param point the point to rotate around
      * @return a rotation matrix
      */
-    public static Mat4G rotationOnPoint(Vec3G rotation, Vec3G point) {
-        return Mat4G.rotationOnPoint(rotation.getX(), rotation.getY(), rotation.getZ(), point);
+    public static Mat4 rotationOnPoint(Vec3 rotation, Vec3 point) {
+        return Mat4.rotationOnPoint(rotation.getX(), rotation.getY(), rotation.getZ(), point);
     }
 
     /**
@@ -444,9 +444,9 @@ public class Mat4G implements Serializable {
      * @param pt the point to rotate around
      * @return a rotation matrix
      */
-    public static Mat4G rotationOnPoint(QuaternionG rot, Vec3G pt) {
-        return Mat4G.translation(pt).mul(Mat4G.rotation(rot),
-                Mat4G.translation(-pt.x(), -pt.y(), -pt.z()));
+    public static Mat4 rotationOnPoint(Quaternion rot, Vec3 pt) {
+        return Mat4.translation(pt).mul(Mat4.rotation(rot),
+                Mat4.translation(-pt.x(), -pt.y(), -pt.z()));
     }
 
 }
