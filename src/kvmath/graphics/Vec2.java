@@ -17,7 +17,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      *
      * @return the x value
      */
-    public float getX() {
+    public final float getX() {
         return this.x;
     }
 
@@ -25,7 +25,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      *
      * @param x the value to set x to
      */
-    public void setX(float x) {
+    public final void setX(float x) {
         this.x = x;
     }
 
@@ -33,7 +33,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      *
      * @param x the value to set x to
      */
-    public void setX(double x) {
+    public final void setX(double x) {
         this.x = (float) x;
     }
 
@@ -41,7 +41,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      *
      * @return the y value.
      */
-    public float getY() {
+    public final float getY() {
         return this.y;
     }
 
@@ -49,7 +49,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      *
      * @param y the value to set y to
      */
-    public void setY(float y) {
+    public final void setY(float y) {
         this.y = y;
     }
 
@@ -57,7 +57,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      *
      * @param y the value to set y to
      */
-    public void setY(double y) {
+    public final void setY(double y) {
         this.y = (float) y;
     }
 
@@ -112,7 +112,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      *
      * @return the vector length
      */
-    public float len() {
+    public final float len() {
         return (float) Math.sqrt(this.x * this.x + this.y * this.y);
     }
 
@@ -121,7 +121,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      * @param vs the vectors to subtract
      * @return the difference
      */
-    public Vec2 sub(Vec2... vs) {
+    public final Vec2 sub(Vec2... vs) {
         Vec2 vec = new Vec2(this);
         for (Vec2 v : vs) {
             vec.x -= v.x;
@@ -135,7 +135,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      * @param vs any number of vectors to subtract
      * @return a copy of the Vec2 with the passed values added to it
      */
-    public Vec2 add(Vec2... vs) {
+    public final Vec2 add(Vec2... vs) {
         Vec2 vec = new Vec2(this);
         for (Vec2 v : vs) {
             vec.x += v.x;
@@ -149,7 +149,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      * @param vs any number of vectors to subtract
      * @return a copy of the Vec2 multiplied by the passed values
      */
-    public Vec2 mul(Vec2... vs) {
+    public final Vec2 mul(Vec2... vs) {
         Vec2 vec = new Vec2(this);
         for (Vec2 v : vs) {
             vec.x *= v.x;
@@ -163,7 +163,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      * @param vs any number of vectors to subtract
      * @return a copy of the Vec2 divided by the passed values
      */
-    public Vec2 div(Vec2... vs) {
+    public final Vec2 div(Vec2... vs) {
         Vec2 vec = new Vec2(this);
         for (Vec2 v : vs) {
             if (v.x != 0) {
@@ -180,7 +180,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      *
      * Normalizes the Vec2
      */
-    public void normalize() {
+    public final void normalize() {
         float l = len();
         if (l == 0) {
             return;
@@ -193,7 +193,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      *
      * @return a copy of the Vec2 normalized
      */
-    public Vec2 normalized() {
+    public final Vec2 normalized() {
         float l = len();
         if (l == 0) {
             l = 1.f;
@@ -206,7 +206,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      * @param ns the floats to scale by
      * @return a new scaled vector
      */
-    public Vec2 mul(float... ns) {
+    public final Vec2 mul(float... ns) {
         Vec2 vec = new Vec2(this);
         for (float n : ns) {
             vec.x *= n;
@@ -220,7 +220,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      * @param ns the floats to scale by
      * @return a new scaled vector
      */
-    public Vec2 div(float... ns) {
+    public final Vec2 div(float... ns) {
         Vec2 vec = new Vec2(this);
         for (float n : ns) {
             vec.x /= n;
@@ -234,7 +234,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      * @param ns the numbers to add
      * @return a new sum vector
      */
-    public Vec2 add(float... ns) {
+    public final Vec2 add(float... ns) {
         Vec2 vec = new Vec2(this);
         for (float n : ns) {
             vec.x += n;
@@ -248,7 +248,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      * @param ns the numbers to subtract
      * @return a new difference vector
      */
-    public Vec2 sub(float... ns) {
+    public final Vec2 sub(float... ns) {
         Vec2 vec = new Vec2(this);
         for (float n : ns) {
             vec.x -= n;
@@ -262,7 +262,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      * @param mat the matrix to multiply by
      * @return the product
      */
-    public Vec2 mul(Mat2 mat) {
+    public final Vec2 mul(Mat2 mat) {
         return Vec2.mulMat2(this, mat);
     }
 
@@ -271,39 +271,39 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      * @param v the vector to compare
      * @return whether the x and y components are equal
      */
-    public boolean equalsXY(Vec2 v) {
+    public final boolean equalsXY(Vec2 v) {
         return (v.x == this.x && v.y == this.y);
     }
 
-    public Vec2 addEquals(Vec2... vectors) {
+    public final Vec2 addEquals(Vec2... vectors) {
         return this.set(this.add(vectors));
     }
 
-    public Vec2 addEquals(float... ns) {
+    public final Vec2 addEquals(float... ns) {
         return this.set(this.add(ns));
     }
 
-    public Vec2 subEquals(Vec2... vectors) {
+    public final Vec2 subEquals(Vec2... vectors) {
         return this.set(this.sub(vectors));
     }
 
-    public Vec2 subEquals(float... ns) {
+    public final Vec2 subEquals(float... ns) {
         return this.set(this.sub(ns));
     }
 
-    public Vec2 mulEquals(Vec2... vectors) {
+    public final Vec2 mulEquals(Vec2... vectors) {
         return this.set(this.mul(vectors));
     }
 
-    public Vec2 mulEquals(float... ns) {
+    public final Vec2 mulEquals(float... ns) {
         return this.set(this.mul(ns));
     }
 
-    public Vec2 divEquals(Vec2... vectors) {
+    public final Vec2 divEquals(Vec2... vectors) {
         return this.set(this.div(vectors));
     }
 
-    public Vec2 divEquals(float... ns) {
+    public final Vec2 divEquals(float... ns) {
         return this.set(this.div(ns));
     }
 
@@ -312,7 +312,7 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
      * @param newVector the vector to be set from
      * @return this
      */
-    public Vec2 set(Vec2 newVector) {
+    public final Vec2 set(Vec2 newVector) {
         this.x = newVector.x;
         this.y = newVector.y;
         return this;
@@ -349,71 +349,71 @@ public class Vec2 implements Comparable<Vec2>, Serializable {
         return v;
     }
 
-    public Vec4 xyxy() {
+    public final Vec4 xyxy() {
         return new Vec4(this.x, this.y, this.x, this.y);
     }
 
-    public Vec4 yxyx() {
+    public final Vec4 yxyx() {
         return new Vec4(this.y, this.x, this.y, this.x);
     }
 
-    public Vec4 xxxx() {
+    public final Vec4 xxxx() {
         return Vec4.filledWith(this.x);
     }
 
-    public Vec4 yyyy() {
+    public final Vec4 yyyy() {
         return Vec4.filledWith(this.y);
     }
 
-    public Vec4 xxxy() {
+    public final Vec4 xxxy() {
         return new Vec4(this.x, this.x, this.x, this.y);
     }
 
-    public Vec4 yyyx() {
+    public final Vec4 yyyx() {
         return new Vec4(this.y, this.y, this.y, this.x);
     }
 
-    public Vec3 xxx() {
+    public final Vec3 xxx() {
         return Vec3.filledWith(this.y);
     }
 
-    public Vec3 yyy() {
+    public final Vec3 yyy() {
         return Vec3.filledWith(this.y);
     }
 
-    public Vec3 xxy() {
+    public final Vec3 xxy() {
         return new Vec3(this.x, this.x, this.y);
     }
 
-    public Vec3 yyx() {
+    public final Vec3 yyx() {
         return new Vec3(this.y, this.y, this.x);
     }
 
-    public Vec2 yx() {
+    public final Vec2 yx() {
         return new Vec2(this.y, this.x);
     }
 
-    public float x() {
+    public final float x() {
         return this.x;
     }
 
-    public float y() {
+    public final float y() {
         return this.y;
     }
 
-    public float u() {
+    public final float u() {
         return this.x;
     }
 
-    public float v() {
+    public final float v() {
         return this.y;
     }
 
-    public void setU(float u) {
+    public final void setU(float u) {
         this.x = u;
     }
 
-    public void setV(float v) {
+    public final void setV(float v) {
         this.y = v;
     }
 

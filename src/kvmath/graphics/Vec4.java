@@ -56,51 +56,51 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
         this((float) x);
     }
 
-    public float getX() {
+    public final float getX() {
         return this.x;
     }
 
-    public void setX(float x) {
+    public final void setX(float x) {
         this.x = x;
     }
 
-    public void setX(double x) {
+    public final void setX(double x) {
         this.x = (float) x;
     }
 
-    public float getY() {
+    public final float getY() {
         return this.y;
     }
 
-    public void setY(float y) {
+    public final void setY(float y) {
         this.y = y;
     }
 
-    public void setY(double y) {
+    public final void setY(double y) {
         this.y = (float) y;
     }
 
-    public float getZ() {
+    public final float getZ() {
         return this.z;
     }
 
-    public void setZ(float z) {
+    public final void setZ(float z) {
         this.z = z;
     }
 
-    public void setZ(double z) {
+    public final void setZ(double z) {
         this.z = (float) z;
     }
 
-    public float getW() {
+    public final float getW() {
         return this.w;
     }
 
-    public void setW(float w) {
+    public final void setW(float w) {
         this.w = w;
     }
 
-    public void setW(double w) {
+    public final void setW(double w) {
         this.w = (float) w;
     }
 
@@ -113,7 +113,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
                 v.x * m[0][3] + v.y * m[1][3] + v.z * m[2][3] + v.w * m[3][3]);
     }
 
-    public Vec4 mulMat4(Mat4 m) {
+    public final Vec4 mulMat4(Mat4 m) {
         return Vec4.mulMat4(this, m);
     }
 
@@ -122,7 +122,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
      * @param vs any number of vectors to add
      * @return a new Vec4 with the sum
      */
-    public Vec4 add(Vec4... vs) {
+    public final Vec4 add(Vec4... vs) {
         Vec4 vec = new Vec4(this);
         for (Vec4 v : vs) {
             vec.x += v.x;
@@ -138,7 +138,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
      * @param vs any number of vectors to subtract
      * @return a new Vec4 with the difference
      */
-    public Vec4 sub(Vec4... vs) {
+    public final Vec4 sub(Vec4... vs) {
         Vec4 vec = new Vec4(this);
         for (Vec4 v : vs) {
             vec.x -= v.x;
@@ -154,7 +154,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
      * @param vs any number of vectors to multiply
      * @return a new Vec4 with the product
      */
-    public Vec4 mul(Vec4... vs) {
+    public final Vec4 mul(Vec4... vs) {
         Vec4 vec = new Vec4(this);
         for (Vec4 v : vs) {
             vec.x *= v.x;
@@ -170,7 +170,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
      * @param vs any number of vectors to divide
      * @return a new Vec4 with the quotient
      */
-    public Vec4 div(Vec4... vs) {
+    public final Vec4 div(Vec4... vs) {
         Vec4 vec = new Vec4(this);
         for (Vec4 v : vs) {
             vec.x /= v.x;
@@ -186,7 +186,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
      * @param ns floats to multiply
      * @return a new Vec4 with the product
      */
-    public Vec4 mul(float... ns) {
+    public final Vec4 mul(float... ns) {
         Vec4 vec = new Vec4(this);
         for (float n : ns) {
             vec.x *= n;
@@ -202,7 +202,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
      * @param ns floats to add
      * @return a new Vec4 with the sum
      */
-    public Vec4 add(float... ns) {
+    public final Vec4 add(float... ns) {
         Vec4 vec = new Vec4(this);
         for (float n : ns) {
             vec.x += n;
@@ -218,7 +218,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
      * @param ns floats to multiply
      * @return a new Vec4 with the difference
      */
-    public Vec4 sub(float... ns) {
+    public final Vec4 sub(float... ns) {
         Vec4 vec = new Vec4(this);
         for (float n : ns) {
             vec.x -= n;
@@ -234,7 +234,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
      * @param ns floats to multiply
      * @return a new Vec4 with the product
      */
-    public Vec4 div(float... ns) {
+    public final Vec4 div(float... ns) {
         Vec4 vec = new Vec4(this);
         for (float n : ns) {
             vec.x /= n;
@@ -245,39 +245,39 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
         return vec;
     }
 
-    public Vec4 addEquals(Vec4... vectors) {
+    public final Vec4 addEquals(Vec4... vectors) {
         return this.set(this.add(vectors));
     }
 
-    public Vec4 addEquals(float... ns) {
+    public final Vec4 addEquals(float... ns) {
         return this.set(this.add(ns));
     }
 
-    public Vec4 subEquals(Vec4... vectors) {
+    public final Vec4 subEquals(Vec4... vectors) {
         return this.set(this.sub(vectors));
     }
 
-    public Vec4 subEquals(float... ns) {
+    public final Vec4 subEquals(float... ns) {
         return this.set(this.sub(ns));
     }
 
-    public Vec4 mulEquals(Vec4... vectors) {
+    public final Vec4 mulEquals(Vec4... vectors) {
         return this.set(this.mul(vectors));
     }
 
-    public Vec4 mulEquals(float... ns) {
+    public final Vec4 mulEquals(float... ns) {
         return this.set(this.mul(ns));
     }
 
-    public Vec4 divEquals(Vec4... vectors) {
+    public final Vec4 divEquals(Vec4... vectors) {
         return this.set(this.div(vectors));
     }
 
-    public Vec4 divEquals(float... ns) {
+    public final Vec4 divEquals(float... ns) {
         return this.set(this.div(ns));
     }
 
-    public Vec4 set(Vec4 newVector) {
+    public final Vec4 set(Vec4 newVector) {
         this.x = newVector.x;
         this.y = newVector.y;
         this.z = newVector.z;
@@ -289,7 +289,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
      *
      * @return a copy of the Vec4 normalized
      */
-    public Vec4 normalized() {
+    public final Vec4 normalized() {
         Vec4 vec = new Vec4(this);
         float l = vec.len();
         if (l != 0.f) {
@@ -305,7 +305,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
      *
      * Normalizes the Vec4
      */
-    public void normalize() {
+    public final void normalize() {
         float l = this.len();
         if (l != 0.f) {
             this.x /= l;
@@ -320,7 +320,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
      * @param v the vector to compare
      * @return whether the x, y, and z components are equal
      */
-    public boolean equalsXYZ(Vec4 v) {
+    public final boolean equalsXYZ(Vec4 v) {
         return (v.x == this.x && v.y == this.y && v.z == this.z);
     }
 
@@ -329,14 +329,14 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
      * @param v the vector to compare
      * @return whether the x, y, z, and w components are equal
      */
-    public boolean equalsXYZW(Vec4 v) {
+    public final boolean equalsXYZW(Vec4 v) {
         return (v.x == this.x && v.y == this.y && v.z == this.z && v.w == this.w);
     }
 
     /**
      * @return the length of the Vec4
      */
-    public float len() {
+    public final float len() {
         return (float) Math.sqrt(Vec4.dot(this, this));
     }
 
@@ -376,75 +376,75 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
         return filledWith((float) v);
     }
 
-    public float x() {
+    public final float x() {
         return this.x;
     }
 
-    public float y() {
+    public final float y() {
         return this.y;
     }
 
-    public float z() {
+    public final float z() {
         return this.z;
     }
 
-    public float w() {
+    public final float w() {
         return this.w;
     }
 
-    public Vec3 xyz() {
+    public final Vec3 xyz() {
         return new Vec3(this.x, this.y, this.z);
     }
 
-    public Vec3 rgb() {
+    public final Vec3 rgb() {
         return this.xyz();
     }
 
-    public Vec2 xy() {
+    public final Vec2 xy() {
         return new Vec2(this.x, this.y);
     }
 
-    public Vec2 uv() {
+    public final Vec2 uv() {
         return new Vec2(this.x, this.y);
     }
 
-    public Vec2 zw() {
+    public final Vec2 zw() {
         return new Vec2(this.z, this.w);
     }
 
-    public Vec2 st() {
+    public final Vec2 st() {
         return new Vec2(this.z, this.w);
     }
 
-    public float r() {
+    public final float r() {
         return this.x;
     }
 
-    public float g() {
+    public final float g() {
         return this.y;
     }
 
-    public float b() {
+    public final float b() {
         return this.z;
     }
 
-    public float a() {
+    public final float a() {
         return this.w;
     }
 
-    public void setR(float r) {
+    public final void setR(float r) {
         this.x = r;
     }
 
-    public void setG(float g) {
+    public final void setG(float g) {
         this.y = g;
     }
 
-    public void setB(float b) {
+    public final void setB(float b) {
         this.z = b;
     }
 
-    public void setA(float a) {
+    public final void setA(float a) {
         this.w = a;
     }
 
@@ -453,7 +453,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
         return (int) (this.len() - other.len());
     }
 
-    public int rgbaAsInt() {
+    public final int rgbaAsInt() {
         int ret = 0;
         Vec4 col = this.mul(255.f);
         ret |= (int) col.r() & 0xff;
@@ -466,7 +466,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
         return ret;
     }
 
-    public int argbAsInt() {
+    public final int argbAsInt() {
         int ret = 0;
         Vec4 col = this.mul(255.f);
         ret |= (int) col.a() & 0xff;
@@ -479,7 +479,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
         return ret;
     }
 
-    public int abgrAsInt() {
+    public final int abgrAsInt() {
         int ret = 0;
         Vec4 col = this.mul(255.f);
         ret |= (int) col.a() & 0xff;
@@ -492,7 +492,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
         return ret;
     }
 
-    public int bgraAsInt() {
+    public final int bgraAsInt() {
         int ret = 0;
         Vec4 col = this.mul(255.f);
         ret |= (int) col.b() & 0xff;
@@ -505,7 +505,7 @@ public class Vec4 implements Comparable<Vec4>, Serializable {
         return ret;
     }
 
-    public Vec4 restrictedColor() {
+    public final Vec4 restrictedColor() {
         Vec4 r = new Vec4(this);
         r.x = restrict(1, 0, r.x);
         r.y = restrict(1, 0, r.y);

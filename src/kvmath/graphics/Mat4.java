@@ -39,7 +39,7 @@ public class Mat4 implements Serializable {
      *
      * @return the flattened Mat4
      */
-    public float[] flatten() {
+    public final float[] flatten() {
         return Mat4.flatten(this);
     }
 
@@ -47,7 +47,7 @@ public class Mat4 implements Serializable {
      *
      * @return the inverse of the Mat4
      */
-    public Mat4 inverse() {
+    public final Mat4 inverse() {
         return Mat4.inverse(this);
     }
 
@@ -56,7 +56,7 @@ public class Mat4 implements Serializable {
      * @param mats the matrices to multiply
      * @return the matrix product
      */
-    public Mat4 mul(Mat4... mats) {
+    public final Mat4 mul(Mat4... mats) {
         Mat4 m1 = new Mat4(this.m);
         for (Mat4 m2 : mats) {
             Mat4 matrix = new Mat4();
@@ -75,11 +75,11 @@ public class Mat4 implements Serializable {
      *
      * @return the float array Mat4
      */
-    public float[][] getMatrixArray() {
+    public final float[][] getMatrixArray() {
         return m;
     }
 
-    public Mat4 transposed() {
+    public final Mat4 transposed() {
         Mat4 ret = new Mat4();
         for (int i = 0; i < 4; ++i) {
             for (int j = 0; j < 4; ++j) {
@@ -89,7 +89,7 @@ public class Mat4 implements Serializable {
         return ret;
     }
 
-    public Mat4 transpose() {
+    public final Mat4 transpose() {
         this.copyFrom(this.transposed().getMatrixArray());
         return this;
     }

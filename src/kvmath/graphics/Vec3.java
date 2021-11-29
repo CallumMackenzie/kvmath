@@ -13,39 +13,39 @@ public class Vec3 implements Comparable<Vec3>, Serializable {
 
     protected float x, y, z;
 
-    public float getX() {
+    public final float getX() {
         return this.x;
     }
 
-    public void setX(float x) {
+    public final void setX(float x) {
         this.x = x;
     }
 
-    public void setX(double x) {
+    public final void setX(double x) {
         this.x = (float) x;
     }
 
-    public float getY() {
+    public final float getY() {
         return this.y;
     }
 
-    public void setY(float y) {
+    public final void setY(float y) {
         this.y = y;
     }
 
-    public void setY(double y) {
+    public final void setY(double y) {
         this.y = (float) y;
     }
 
-    public float getZ() {
+    public final float getZ() {
         return this.z;
     }
 
-    public void setZ(float z) {
+    public final void setZ(float z) {
         this.z = z;
     }
 
-    public void setZ(double z) {
+    public final void setZ(double z) {
         this.z = (float) z;
     }
 
@@ -92,7 +92,7 @@ public class Vec3 implements Comparable<Vec3>, Serializable {
      * @param v the vector to compare
      * @return whether the x and y components are equal
      */
-    public boolean equalsXY(Vec3 v) {
+    public final boolean equalsXY(Vec3 v) {
         return (v.x == this.x && v.y == this.y);
     }
 
@@ -101,7 +101,7 @@ public class Vec3 implements Comparable<Vec3>, Serializable {
      * @param v the vector to compare
      * @return whether the x, y, and w components are equal
      */
-    public boolean equalsXYZ(Vec3 v) {
+    public final boolean equalsXYZ(Vec3 v) {
         return (v.x == this.x && v.y == this.y && v.z == this.z);
     }
 
@@ -299,7 +299,7 @@ public class Vec3 implements Comparable<Vec3>, Serializable {
                 .append(")").toString();
     }
 
-    public static final float dot(Vec3 v1, Vec3 v2) {
+    public static float dot(Vec3 v1, Vec3 v2) {
         return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;
     }
 
@@ -355,7 +355,7 @@ public class Vec3 implements Comparable<Vec3>, Serializable {
         return new Vec2(this.x, this.y);
     }
 
-    public static final Vec3 cross(Vec3 v1, Vec3 v2) {
+    public static Vec3 cross(Vec3 v1, Vec3 v2) {
         Vec3 v = new Vec3();
         v.x = v1.y * v2.z - v1.z * v2.y;
         v.y = v1.z * v2.x - v1.x * v2.z;
@@ -363,11 +363,11 @@ public class Vec3 implements Comparable<Vec3>, Serializable {
         return v;
     }
 
-    public static final Vec3 filledWith(float n) {
+    public static Vec3 filledWith(float n) {
         return new Vec3(n, n, n);
     }
 
-    public static final Vec3 filledWith(double n) {
+    public static Vec3 filledWith(double n) {
         return Vec3.filledWith((float) n);
     }
 

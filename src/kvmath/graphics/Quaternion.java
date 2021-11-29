@@ -28,51 +28,51 @@ public class Quaternion extends Vec4 {
         this.w = w;
     }
 
-    public Vec3 getComplex() {
+    public final Vec3 getComplex() {
         return this.xyz();
     }
 
-    public void setComplex(Vec3 c) {
+    public final void setComplex(Vec3 c) {
         this.x = c.x();
         this.y = c.y();
         this.z = c.z();
     }
 
-    public float getReal() {
+    public final float getReal() {
         return this.w;
     }
 
-    public void setReal(float r) {
+    public final void setReal(float r) {
         this.w = r;
     }
 
-    public Quaternion conjugate() {
+    public final Quaternion conjugate() {
         return new Quaternion(this.getComplex().mul(-1.f), this.getReal());
     }
 
-    public Quaternion inverse() {
+    public final Quaternion inverse() {
         return this.conjugate().div(this.len());
     }
 
-    public Quaternion mul(Quaternion rhs) {
+    public final Quaternion mul(Quaternion rhs) {
         return new Quaternion(this.y() * rhs.z() - this.z() * rhs.y() + this.x() * rhs.w() + this.w() * rhs.x(),
                 this.z() * rhs.x() - this.x() * rhs.z() + this.y() * rhs.w() + this.w() * rhs.y(),
                 this.x() * rhs.y() - this.y() * rhs.x() + this.z() * rhs.w() + this.w() * rhs.z(),
                 this.w() * rhs.w() - this.x() * rhs.x() - this.y() * rhs.y() - this.z() * rhs.z());
     }
 
-    public Quaternion mul(float s) {
+    public final Quaternion mul(float s) {
         return new Quaternion(this.getComplex().mul(s), this.getReal() * s);
     }
 
-    public Quaternion div(float s) {
+    public final Quaternion div(float s) {
         if (s == 0) {
             return new Quaternion();
         }
         return new Quaternion(this.getComplex().div(s), this.getReal() / s);
     }
 
-    public void scaleAxis(Vec3 w) {
+    public final void scaleAxis(Vec3 w) {
         float theta = w.len();
         if (theta > 0.0001) {
             float s = (float) Math.sin((double) (theta / 2.f));
@@ -87,11 +87,11 @@ public class Quaternion extends Vec4 {
         }
     }
 
-    public Vec3 rotateVec3(Vec3 v) {
+    public final Vec3 rotateVec3(Vec3 v) {
         return (this.mul(new Quaternion(v, 0)).mul(this.conjugate())).getComplex();
     }
 
-    public void setEuler(Vec3 euler) {
+    public final void setEuler(Vec3 euler) {
         float c1 = (float) Math.cos((double) (euler.z() * .5f));
         float c2 = (float) Math.cos((double) (euler.y() * .5f));
         float c3 = (float) Math.cos((double) (euler.x() * .5f));
@@ -105,7 +105,7 @@ public class Quaternion extends Vec4 {
         this.w = c1 * c2 * c3 + s1 * s2 * s3; // w : D
     }
 
-    public Vec3 getEuler() {
+    public final Vec3 getEuler() {
         Vec3 euler = new Vec3();
 
         double PI_OVER_2 = 3.14159 * 0.5;

@@ -9,7 +9,7 @@ package kvmath.utils;
  *
  * @author callum
  */
-public class ArrayUtils {
+public final class ArrayUtils {
 
     public static long[] toLongArray(int[] in) {
         long[] nw = new long[in.length];

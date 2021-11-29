@@ -26,7 +26,7 @@ public class Mat2 implements Serializable {
      *
      * @return the flattened matrix
      */
-    public float[] flatten() {
+    public final float[] flatten() {
         return new float[]{m[0][0], m[0][1], m[1][0], m[1][1]};
     }
 
@@ -34,7 +34,7 @@ public class Mat2 implements Serializable {
      *
      * @return the 2D float array matrix
      */
-    public float[][] getMatrixArray() {
+    public final float[][] getMatrixArray() {
         return m;
     }
 
@@ -52,7 +52,7 @@ public class Mat2 implements Serializable {
      *
      * @return the determinant of this matrix
      */
-    public float determinant() {
+    public final float determinant() {
         return (m[0][0] * m[1][1]) - (m[0][1] * m[1][0]);
     }
 
@@ -60,7 +60,7 @@ public class Mat2 implements Serializable {
      *
      * @return the inverse of this matrix
      */
-    public Mat2 inverse() {
+    public final Mat2 inverse() {
         return Mat2.inverse(this);
     }
 
@@ -69,7 +69,7 @@ public class Mat2 implements Serializable {
      * @param mats matrices to multiply
      * @return the product
      */
-    public Mat2 mul(Mat2... mats) {
+    public final Mat2 mul(Mat2... mats) {
         Mat2 m1 = new Mat2(this.m);
         for (Mat2 m2 : mats) {
             Mat2 matrix = new Mat2();
@@ -154,7 +154,7 @@ public class Mat2 implements Serializable {
      *
      * @return the transposed matrix
      */
-    public Mat2 transposed() {
+    public final Mat2 transposed() {
         return new Mat2(new float[][]{
             {this.m[0][0], this.m[1][0]},
             {this.m[0][1], this.m[1][1]}});
@@ -164,7 +164,7 @@ public class Mat2 implements Serializable {
      *
      * @return this
      */
-    public Mat2 transpose() {
+    public final Mat2 transpose() {
         this.copyFrom(this.transposed().getMatrixArray());
         return this;
     }
